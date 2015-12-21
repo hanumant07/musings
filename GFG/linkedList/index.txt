@@ -1,0 +1,7 @@
+
+1. Sort a linked list of 0s, 1s and 2s
+   SortList.c
+
+2. Merge two sorted list as a descending order list
+   mergeSortedList.c
+

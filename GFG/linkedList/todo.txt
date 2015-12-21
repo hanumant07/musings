@@ -1,0 +1,17 @@
+
+1.http://www.geeksforgeeks.org/split-a-circular-linked-list-into-two-halves/
+2.http://www.geeksforgeeks.org/memory-efficient-doubly-linked-list/
+3.http://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/
+4.http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/
+5.http://www.geeksforgeeks.org/given-linked-list-line-segments-remove-middle-points/
+6.http://www.geeksforgeeks.org/maximum-sum-linked-list-two-sorted-linked-lists-common-nodes/
+7.http://www.geeksforgeeks.org/union-and-intersection-of-two-linked-lists/
+
+List to tree and vice verse
+1.http://www.geeksforgeeks.org/the-great-tree-list-recursion-problem/
+2.http://www.geeksforgeeks.org/in-place-conversion-of-sorted-dll-to-balanced-bst/
+3.http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/
+
+Sort list
+1.http://www.geeksforgeeks.org/point-to-next-higher-value-node-in-a-linked-list-with-an-arbitrary-pointer/
+
