@@ -1,0 +1,25 @@
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+" Javascript indentation plugin
+Plugin 'pangloss/vim-javascript'
+" Automate braces
+Plugin 'Raimondi/delimitMate'
+" Javascript Lynt
+Plugin 'scrooloose/syntastic'
+" Linux hacking
+Plugin 'vivien/vim-linux-coding-style'
+call vundle#end()
+filetype plugin indent on
+set t_Co=256
+syntax on
+set background=dark
+" Show line and col number
+set ruler
+" Allow backspace over inset session"
+set backspace=indent,eol,start
+
