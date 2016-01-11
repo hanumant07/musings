@@ -13,6 +13,14 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'scrooloose/syntastic'
 " Linux hacking
 Plugin 'vivien/vim-linux-coding-style'
+" STL Syntax
+Plugin 'Mizuchi/STL-Syntax'
+" Auto completion
+Plugin 'Valloric/YouCompleteMe'
+" Git plugin
+Plugin 'tpope/vim-fugitive'
+" Doxygen
+Plugin 'mrtazz/DoxygenToolkit.vim'
 call vundle#end()
 filetype plugin indent on
 set t_Co=256
