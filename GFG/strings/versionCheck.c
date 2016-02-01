@@ -16,9 +16,7 @@ char *mystrtok(char *in, char c, char **end)
 	char *s = in;
 	if (in == NULL)
 		return NULL;
-//	printf("Printing string and traversing\n");
 	while (*s != c && *s!= '\0') {
-//		printf("%c ", *s);
 		s++;
 	}
 	if (*s == '\0') {
@@ -44,12 +42,8 @@ int checkVersion(char *ver1, char *ver2)
 	while(s1_next != NULL && s2_next != NULL) {
 		s1 = mystrtok(s1_next, '.', &s1_next);
 		s2 = mystrtok(s2_next, '.', &s2_next);
-//		if (s1 == NULL || s2 == NULL)
-//			break;
 		long S1 = strtol(s1, &end, 10);
 		long S2 = strtol(s2, &end, 10);
-		printf("%ld\n", S1);
-		printf("%ld\n", S2);
 		if (S1 > S2)
 			return 1;
 		if (S1 < S2)
