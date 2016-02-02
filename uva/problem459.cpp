@@ -13,9 +13,51 @@
 using namespace std;
 
 typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vii> vvii;
+typedef vector<vi> vvi;
+
+vi pset;
+
+int findSet(int i)
+{
+	if (pset[i] == i) return i;
+	return pset[i] = findSet(pset[i]);
+}
+
+void unionSet(int i, int j)
+{
+	cout << "performing union of " << char(i + 'A') << " " << char(j + 'A') << endl;
+	pset[findSet(i)] = findSet(j);
+}
+
+bool isSameSet(int i, int j)
+{
+	return findSet(i) == findSet(j);
+}
+
+int numOfSet()
+{
+	int count = 0;
+	for(int i = 0; i < pset.size(); i++)
+		if (pset[i] == i)
+			count++;
+	return count;
+}
+
+int getConnected(vvi& AdjList, int n)
+{
+	pset.clear();
+	pset.resize(n);
+	for(int i = 0; i < n; i++)
+		pset[i] = i;
+	for(int i = 0; i < AdjList.size(); i++) {
+		int numEdges = AdjList[i].size();
+		for(int j = 0; j < numEdges; j++) {
+			if (!isSameSet(i, j))
+				unionSet(i, j);
+		}
+	}
+	return numOfSet();
+}
 
 int main()
 {
@@ -25,13 +67,25 @@ int main()
 		int n;
 		char HtVertex;
 		string edge;
-		scanf("%c", &HtVertex);
-		n = HtVertex - 'A';
-		vi pset(n, -1);
-		vvii AdjList(n);
-		while (getline(cin, edge) && edge != "")
-			AdjList[edge[0]-'A'].push_back(pair<int,int>::((edge[1]-'A'), 1));
-		cout << getConnected(AdjList, pset) << endl;
+		cin >> HtVertex;
+		n = HtVertex - 'A' + 1;
+		cout << "n is " << n << endl;
+		vvi AdjList(n);
+		while(1) {
+			getline(cin, edge);
+			getline(cin, edge);
+			if (edge == "")
+				break;
+			cout << "Edge " << edge[0] << " " << edge[1] << endl;
+			AdjList[edge[0]-'A'].push_back((edge[1]-'A'));
+		}
+		for (int i = 0; i < AdjList.size(); i++) {
+			int  numEdges = AdjList[i].size();
+			cout << "Adj for " << char(i + 'A') << endl;
+			for(int j = 0; j < numEdges; j++)
+				cout << char(AdjList[i][j] + 'A') << " ";
+		}
+		cout << getConnected(AdjList, n) << endl;
 
 	}
 	return 0;
