@@ -10,24 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-char *mystrtok(char *in, char c, char **end)
-{
-	char *s = in;
-	if (in == NULL)
-		return NULL;
-	while (*s != c && *s!= '\0') {
-		s++;
-	}
-	if (*s == '\0') {
-		*end = NULL;
-		return in;
-	}
-	if (*s == c)
-		*end = s + 1;
-	*s = '\0';
-	return in;
-}
+#include <limits.h>
 
 int checkVersion(char *ver1, char *ver2)
 {
@@ -39,28 +22,34 @@ int checkVersion(char *ver1, char *ver2)
 	char *s1_next = s1;
 	char *s2_next = s2;
 	char *end;
-	while(s1_next != NULL && s2_next != NULL) {
-		s1 = mystrtok(s1_next, '.', &s1_next);
-		s2 = mystrtok(s2_next, '.', &s2_next);
-		long S1 = strtol(s1, &end, 10);
-		long S2 = strtol(s2, &end, 10);
+	long S1 = LONG_MAX;
+	long S2 = LONG_MIN;
+	do {
+		S1 = strtol(s1, &s1_next, 10);
+		S2 = strtol(s2, &s2_next, 10);
+
 		if (S1 > S2)
 			return 1;
 		if (S1 < S2)
 			return -1;
-	}
-	if (s1 == NULL && s2 == NULL)
+		if (s1_next == s1 || s2_next == s2)
+			break;
+		s1 = s1_next + 1;
+		s2 = s2_next + 1;
+
+	} while(S1 == S2);
+	if (S1 == S2)
 		return 0;
-	if (s1 == NULL && s2 != NULL)
+	if (S1 < S2)
 		return -1;
-	if (s1 != NULL && s2 == NULL)
+	if (S1 > S2)
 		return 1;
 }
 
 int main(void)
 {
-	char ver1[] = "1.2.3";
-	char ver2[] = "1.02.2";
+	char ver1[] = "1.01";
+	char ver2[] = "1.1";
 	int res = checkVersion(ver1, ver2);
 	if (res == 1)
 		printf("V1 > V2\n");
