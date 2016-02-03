@@ -1,3 +1,10 @@
+/*
+ * https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1167
+ *
+ * Author: Hanumant Singh <hanumant07@gmail.com>
+ */
+
+
 #include <algorithm>
 #include <map>
 #include <iostream>
@@ -8,46 +15,37 @@ using namespace std;
 
 typedef map<string,double>::iterator map_it;
 
-
-
-
 #define present(c,x) ((c).find(x) != (c).end())
-#define tr(c, it)	\
-	for(map_it it = (c).begin(); it != (c).end(); ++it)
 
 
 int main() {
 	int t;
 	string tree;
-	int cnt = 0;
-	scanf("%d", &t);
+	double cnt = 0.0;
+	cin >> t;
+	getline(cin, tree);
 	getline(cin, tree);
 	while(t--) {
 		map<string,double> forestMap;
-		getline(cin, tree);
-		while(1) {
-
-			getline(cin, tree);
+		while(getline(cin, tree) && !tree.empty()) {
 			if (tree == "")
 				break;
 			cnt++;
-//			cout << "Adding Tree " << tree << endl;
 			if (present(forestMap, tree))
 				forestMap[tree] += 1.0;
 			else
 				forestMap[tree] = 1.0;
 		}
-//		cout << "Processing Map"<< endl;
 		map_it it = forestMap.begin();
 		while(it != forestMap.end()) {
 			cout << it->first << " ";
-			printf("%.4f\n", (it->second/count)*100);
+			printf("%.4f\n", (it->second/cnt)*100);
 			++it;
 		}
-		forestMap.erase(forestMap.begin(), forestMap.end());
-		cnt = 0;
-//		if (t)
-//			cout << endl;
+		forestMap.clear();
+		cnt = 0.0;
+		if (t)
+			cout << endl;
 	}
 	return 0;
 }
