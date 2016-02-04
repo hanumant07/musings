@@ -1,101 +1,95 @@
-/*
- * At an open-source fair held at a major university,
- * leaders of open-source projects put sign-up
- * sheets on the wall, with the project name at the
- * top in capital letters for identification.
- * Students then signed up for projects using
- * their userids. A userid is a string of lower-case
- * letters and numbers starting with a letter.
- * The organizer then took all the sheets off the
- * wall and typed in the information.
- * Your job is to summarize the number of
- * students who have signed up for each project.
- * Some students were overly enthusiastic and put
- * their name down several times for the same
- * project. That’s okay, but they should only count
- * once. Students were asked to commit to a single
- * project, so any student who has signed up for more than one project should
- * not count for any project.
- * There are at most 10,000 students at the university, and at most 100 projects
- * were advertised.
- *
- * Input
- * The input contains several test cases, each one ending with a line that
- * starts with the digit 1. The last
- * test case is followed by a line starting with the digit 0.
- * Each test case consists of one or more project sheets. A project sheet
- * consists of a line containing
- * the project name in capital letters, followed by the userids of students, one
- * per line.
- * Output
- * For each test case, output a summary of each project sheet. The summary is
- * one line with the name
- * of the project followed by the number of students who signed up. These lines
- * should be printed in
- * decreasing order of number of signups. If two or more projects have the same
- * number of signups, they
- * should be listed in alphabetical order
- *
- * https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=2180
- * Author: Hanumant Singh <hanumant07@gmail.com>
- *
- */
-
 #include <algorithm>
 #include <iostream>
 #include <map>
 #include <set>
+#include <string>
+#include <unordered_set>
+using namespace std;
 
-map<string,unordered_set<string>> projects;
-map<string,string> studentList;
-map<int,unordered_set<string>> result;
+#define s_it set<string>::iterator
+#define present(c, x) (c).find(x) != (c).end()
+#define tr(c, it)	\
+	for(decltype((c).begin()) it = (c).begin(); it != (c).end(); ++it)
+#define rtr(c, it)	\
+	for(decltype((c).rbegin()) it = (c).rbegin(); it != (c).rend(); ++it)
 
 int main()
 {
 	string name;
+	map<string,unordered_set<string>> projects;
+	map<string,string> studentList;
+	map<int,set<string>> result;
+	set<string> banList;
 	string curr_proj;
+	bool newProj = false;
 	do {
-		while(getline(cin, name) && name != "1" && name != "0") {
-			if (isupper(name[0])) {
-				curr_proj = name;
-				if (present(projects, name))
-					continue;
-				newProj = true;
-				continue;
-			}
-			if (present(banList, name))
-				continue;
-			if (present(studentList, name)) {
-				string project = studentList[name];
-				projects[project].erase(name);
-				continue;
-			}
-			studentList.insert(name);
-			if (newProj) {
-				projects[curr_proj] =
-						unordered_set<string>(name);
-				newProj = false;
-			} else
-				project[curr_proj].insert(name);
-		}
+
+		getline(cin, name);
+		if (name == "0")
+			break;
 		if (name == "1") {
+			if (newProj) {
+				unordered_set<string> s;
+				projects[curr_proj] = s;
+			}
 			tr(projects, it) {
-				int cnt = it->second.count();
+				int cnt = it->second.size();
 				if (present(result, cnt))
 					result[cnt].insert(it->first);
 				else
-					result[cnt] = unordered_set<string>(it->first);
+					result[cnt] = set<string>({it->first});
 			}
-			tr(results, it) {
-				if (it->second.count() > 1)
-					
+			rtr(result, it) {
+				int setSize = it->second.size();
+				if (setSize <= 1) {
+					cout << *(it->second.begin()) << " " <<
+							it->first << endl;
+					continue;
+				}
+				s_it it_p = it->second.begin();
+				while(it_p != it->second.end()) {
+					cout << *it_p << " " <<
+						it->first << endl;
+					++it_p;
+				}
 
-			}
 			}
 			studentList.clear();
 			projects.clear();
+			result.clear();
+			banList.clear();
 			curr_proj = "";
+			newProj = false;
+			continue;
 		}
-	} while(name != "0");
 
+		if (isupper(name[0])) {
+			if (newProj && curr_proj != name) {
+				unordered_set<string> s;
+				projects[curr_proj] = s;
+			}
+			curr_proj = name;
+			if (present(projects, name))
+				continue;
+			newProj = true;
+			continue;
+		}
+		if (present(banList, name))
+			continue;
+		if (present(studentList, name)) {
+			string project = studentList[name];
+			if (project == curr_proj)
+				continue;
+			projects[project].erase(name);
+			banList.insert(name);
+			continue;
+		}
+		studentList[name] = curr_proj;
+		if (newProj) {
+			projects[curr_proj] = unordered_set<string>({name});
+			newProj = false;
+		} else
+			projects[curr_proj].insert(name);
+	} while(name != "0");
+	return 0;
 }
