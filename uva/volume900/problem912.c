@@ -103,18 +103,18 @@ bool unionSet(int i, int j)
 {
 	int pi = findSet(i);
 	int pj = findSet(j);
-
 	if (mut[pi] != 'u' && mut[pj] != 'u' && mut[pi] != mut[pj])
 		return false;
 	if (mut[pi] == 'u' && mut[pj] != 'u') {
 		pset[pi] = pj;
 		mut[pi] = mut[pj];
+		return true;
 	}
-	else if (mut[pj] != 'u' && mut[pj] == 'u') {
+	if (mut[pi] != 'u' && mut[pj] == 'u') {
 		pset[pj] = pi;
 		mut[pj] = mut[pi];
-	} else
-		pset[pi] = pset[pj];
+		return true;
+	}
 	return true;
 }
 
@@ -123,7 +123,7 @@ bool isSameSet(int i, int j)
 	return findSet(i) == findSet(j);
 }
 
-bool isnumber(char c)
+bool isNumber(char c)
 {
 	if (c >= '1' && c <= '9')
 		return true;
@@ -137,16 +137,16 @@ bool processSeq(char *S1, char *S2, int size)
 		if (S1[i] != S2[i]) {
 			if (isupper(S1[i]) && isupper(S2[i]))
 				return false;
-			if (isnumber(S1[i]) && isnumber(S2[i])) {
+			if (isNumber(S1[i]) && isNumber(S2[i])) {
 				if (isSameSet(S1[i] - '1', S2[i] - '1'))
 					continue;
 				if (!unionSet(S1[i] - '1', S2[i] - '1'))
 					return false;
 				continue;
 			}
-			int mutant = isnumber(S1[i]) ? S1[i] - '1' :
+			int mutant = isNumber(S1[i]) ? S1[i] - '1' :
 							S2[i] - '1';
-			char gene = isnumber(S1[i]) ? S2[i] : S1[i];
+			char gene = isNumber(S1[i]) ? S2[i] : S1[i];
 			int p = findSet(mutant);
 			if (mut[p] == 'u')
 				mut[p] = gene;
@@ -160,8 +160,11 @@ bool processSeq(char *S1, char *S2, int size)
 void printMut()
 {
 	int i;
+	char gene;
+	printf("YES\n");
 	for (i = 0; i < NUM_MUTANTS; i++) {
-		int gene = mut[findSet(i)];
+		int p = findSet(i);
+		gene = mut[p];
 		if (gene == 'u')
 			continue;
 		else
@@ -169,37 +172,43 @@ void printMut()
 	}
 }
 
-char input[3];
+char *input = NULL;
 
 int main()
 {
-	int t;
+	size_t t = 3;
+	bool printBlank = false;
 	while (1) {
-		if (fgets(input, sizeof(input), stdin) == NULL)
+		if (getline(&input, &t, stdin) == -1)
 			break;
+		if (input[0] == '\n')
+			continue;
+		if (printBlank)
+				printf("\n");
 		int n = atoi(input);
 		int in_size = 2 * n;
-		printf(" input size %d\n", in_size);
 		char *S1 = malloc(in_size*sizeof(char));
 		char *S2 = S1 + n;
 		char *iter = S1;
 		initSet();
-		char gene;
-		getchar();
+		int len;
 		while (in_size--) {
-			gene = getchar();
-			printf("char read %c counter is %d\n", gene, in_size);
-			*iter = gene;
-			iter++;
-			getchar();
+			char *gene = NULL;
+			if (getline(&gene, &len, stdin) == -1)
+				printf("No Line\n");
+			else {
+				*iter = *gene;
+				iter++;
+				free(gene);
+			}
 		}
-		printf("DNA S : %s\n", S1);
-		if (processSeq(S1, S2, n))
+		if (!processSeq(S1, S2, n))
 			printf("NO\n");
 		else
 			printMut();
 		free(S1);
-		getchar();
+		printBlank = true;
+
 	}
 	return 0;
 }
