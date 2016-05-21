@@ -41,7 +41,12 @@ void write_last_vals(FILE *fp)
 {
 	int curr, end;
 	int index = last_32.index;
-	if (last_32.cnt <= 32) {
+
+	if (last_32.cnt == 32) {
+		curr = 0;
+		end = 31;
+	}
+	else if (last_32.cnt < 32) {
 		curr = 0;
 		end = index;
 	} else {
