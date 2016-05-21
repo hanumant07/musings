@@ -11,4 +11,12 @@ void init_max_record_val(void);
 void record_max_val(uint16_t);
 /* Write max values to file */
 void write_max_vals(FILE *);
+/* test apis */
+
+#ifdef TEST
+void test_sort_heap(void);
+uint16_t get_heap_val(int);
+void dump_sort_heap(void);
+#endif
+
 #endif

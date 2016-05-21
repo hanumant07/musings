@@ -62,7 +62,7 @@ void write_last_vals(FILE *fp)
 			LOG_MSG(ERR, STD_ERR, "Unable to write to output file");
 		curr = update_index(curr);
 	}
-	if (last_32.cnt > 32)
+	if (last_32.cnt >= 32)
 		fprintf(fp, "%d\n", last_32.vals[curr]);
 }
 

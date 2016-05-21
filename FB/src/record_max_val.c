@@ -185,3 +185,24 @@ void write_max_vals(FILE *fp)
 	}
 	return;
 }
+
+#ifdef TEST
+void test_sort_heap()
+{
+	heap_sort(data_rec.cnt);
+}
+
+uint16_t get_heap_val(int index)
+{
+	if (index >= NUM_VALS || index < 0 || index > data_rec.cnt)
+		return -1;
+	return data_rec.heap[index];
+}
+
+void dump_sort_heap()
+{
+	int i;
+	for (i = 0; i < data_rec.cnt; i++)
+		printf("%d\n", data_rec.heap[i]);
+}
+#endif
