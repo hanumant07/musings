@@ -49,5 +49,4 @@ endif
 .PHONY: clean
 clean:
 	rm -f $(ODIR)/*.o *~ core $(INC)/*~
-	rm -f parser
 	rm -f $(BINDIR)test_parser
