@@ -1,0 +1,4 @@
+location = 18
+offset = 9
+origin = 8
+random = 4
