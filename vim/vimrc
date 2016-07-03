@@ -11,8 +11,6 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
 " Javascript Lynt
 Plugin 'scrooloose/syntastic'
-" Linux hacking
-Plugin 'vivien/vim-linux-coding-style'
 " STL Syntax
 Plugin 'Mizuchi/STL-Syntax'
 " Auto completion
@@ -21,10 +19,15 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 " Doxygen
 Plugin 'mrtazz/DoxygenToolkit.vim'
+" YCM generator
+Plugin 'rdnetto/YCM-Generator'
+" CPP format for vim
+Plugin 'rhysd/vim-clang-format'
 call vundle#end()
 filetype plugin indent on
 set t_Co=256
 syntax on
+autocmd FileType cpp ClangFormatAutoEnable
 set background=dark
 " Show line and col number
 set ruler
